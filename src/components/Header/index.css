@@ -1,21 +1,19 @@
 .Header {
-  color: var(--color-primary);
+  color: var(--color-dark);
   width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
   padding: 10px 30px;
   font-size: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 100;
-}
-.Header__menu {
-  display: flex;
-  gap: 20px;
-  font-size: 1.3rem;
-}
-.Header__menu__item {
-  list-style-type: none;
+
+  &__menu {
+    display: flex;
+    gap: 20px;
+    font-size: 1.3rem;
+
+    &__item {
+      list-style-type: none;
+    }
+  }
 }

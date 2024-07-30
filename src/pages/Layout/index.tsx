@@ -5,10 +5,10 @@ import "./index.css";
 
 function Layout() {
   return (
-    <div className="Layout">
+    <>
       <Header />
       <Outlet />
-    </div>
+    </>
   );
 }
 

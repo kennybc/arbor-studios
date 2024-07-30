@@ -1,9 +1,5 @@
 :root {
-  --color-primary: #d6c4a8;
-  --color-secondary: #c8661e;
-  --color-dark1: #121903;
-  --color-dark2: #296248;
-  --color-dark3: #6b866f;
+  --color-dark: rgb(31, 31, 31);
 }
 
 * {
