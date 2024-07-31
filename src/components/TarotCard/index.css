@@ -1,2 +1,5 @@
 .TarotCard {
+  img {
+    width: 100%;
+  }
 }
