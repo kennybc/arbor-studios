@@ -3,13 +3,13 @@ import Header from "@/components/Header";
 
 import "./index.css";
 
-function Layout() {
+const Layout = () => {
   return (
-    <>
+    <div className="Layout">
       <Header />
       <Outlet />
-    </>
+    </div>
   );
-}
+};
 
 export default Layout;

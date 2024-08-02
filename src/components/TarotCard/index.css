@@ -1,4 +1,6 @@
 .TarotCard {
+  transition: transform 0.8s ease;
+
   img {
     width: 100%;
   }
