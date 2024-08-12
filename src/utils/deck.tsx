@@ -5,7 +5,6 @@ import {
   RefObject,
   MutableRefObject,
 } from "react";
-import { useNavigate } from "react-router-dom";
 
 export type DeckContextType = {
   cardRefs: MutableRefObject<Array<HTMLDivElement | null>>;
@@ -15,8 +14,6 @@ export type DeckContextType = {
 export const DeckContext = createContext({} as DeckContextType);
 
 export const useDeck = () => {
-  const navigate = useNavigate();
-
   const [converged, setConverged] = useState<boolean>(false);
   const { cardRefs, sourceRef } = useContext(DeckContext);
 

@@ -1,6 +1,7 @@
 import React from "react";
 
 import "./index.css";
+import { Link } from "react-router-dom";
 
 interface TarotCardProps
   extends React.DetailedHTMLProps<
@@ -8,6 +9,7 @@ interface TarotCardProps
     HTMLDivElement
   > {
   index: number;
+  to: string;
 }
 
 const TarotCard = React.forwardRef<HTMLDivElement, TarotCardProps>(
@@ -33,7 +35,9 @@ const TarotCard = React.forwardRef<HTMLDivElement, TarotCardProps>(
         ref={ref}
         {...rest}
       >
-        <img src={getSrc()} />
+        <Link to={props.to}>
+          <img src={getSrc()} />
+        </Link>
       </div>
     );
   }

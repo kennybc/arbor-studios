@@ -24,18 +24,14 @@ const Deck = () => {
       <div className="Deck__source" ref={sourceRef}></div>
       {Array.from({ length: 6 }, (_, i) => {
         return (
-          <Link to={locations[i]} key={i}>
-            <TarotCard
-              index={i + 1}
-              key={i}
-              ref={(el) => {
-                cardRefs.current[i] = el;
-              }}
-              /*onClick={() => {
-            convergeDeck(i);
-          }}*/
-            />
-          </Link>
+          <TarotCard
+            index={i + 1}
+            key={i}
+            ref={(el) => {
+              cardRefs.current[i] = el;
+            }}
+            to={locations[i]}
+          />
         );
       })}
     </div>
