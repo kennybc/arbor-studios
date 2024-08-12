@@ -4,14 +4,14 @@ import { useDeck } from "@/utils/deck";
 
 import "./index.css";
 
-const Home = () => {
-  const { spreadDeck } = useDeck();
+const System = () => {
+  const { convergeDeck } = useDeck();
 
   useEffect(() => {
-    spreadDeck();
+    convergeDeck(3);
   }, []);
 
-  return <>Home</>;
+  return <>System</>;
 };
 
-export default Home;
+export default System;

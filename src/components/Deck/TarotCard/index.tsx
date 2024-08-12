@@ -2,17 +2,24 @@ import React from "react";
 
 import "./index.css";
 
-interface TarotCardProps {
+interface TarotCardProps
+  extends React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > {
   index: number;
 }
 
 const TarotCard = React.forwardRef<HTMLDivElement, TarotCardProps>(
   (props, ref) => {
+    const { children, ...rest } = props;
+
     const offsetY = 50; // padding-top increments
     const offsetX = 3; // number of cards to shift sine wave pattern by
 
     const getSrc = () => {
-      return new URL(`../../assets/${props.index}.png`, import.meta.url).href;
+      return new URL(`../../../assets/${props.index}.png`, import.meta.url)
+        .href;
     };
 
     return (
@@ -24,6 +31,7 @@ const TarotCard = React.forwardRef<HTMLDivElement, TarotCardProps>(
             offsetY,
         }}
         ref={ref}
+        {...rest}
       >
         <img src={getSrc()} />
       </div>
