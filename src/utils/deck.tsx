@@ -6,6 +6,8 @@ import {
   MutableRefObject,
   ReactNode,
   useEffect,
+  Dispatch,
+  SetStateAction,
 } from "react";
 
 import debounce from "./debounce";
@@ -19,15 +21,18 @@ type DeckCoordType = {
 };
 
 type DeckContextType = {
+  converged: boolean;
   cardRefs: MutableRefObject<Array<HTMLDivElement | null>>;
   sourceRef: MutableRefObject<HTMLDivElement | null>;
   distances: Array<DeckCoordType>;
+  setConverged: Dispatch<SetStateAction<boolean>>;
   calculateDist: () => void;
 };
 
 export const DeckContext = createContext({} as DeckContextType);
 
 export const DeckProvider = ({ children }: { children: ReactNode }) => {
+  const [converged, setConverged] = useState(false);
   const cardRefs = useRef<HTMLDivElement[]>(new Array());
   const sourceRef = useRef<HTMLDivElement>(null);
   const [distances, setDistances] = useState(new Array<DeckCoordType>());
@@ -68,7 +73,6 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const dbCalcDist = debounce(() => {
-    console.log("debounce");
     calculateDist();
   });
 
@@ -84,9 +88,11 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
   return (
     <DeckContext.Provider
       value={{
+        converged,
         cardRefs,
         sourceRef,
         distances,
+        setConverged,
         calculateDist,
       }}
     >
@@ -99,19 +105,11 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
  *      DECK HOOK
  **************************/
 export const useDeck = () => {
-  const [converged, setConverged] = useState(false);
-  const { cardRefs, sourceRef, distances } = useContext(DeckContext);
+  const { cardRefs, sourceRef, distances, setConverged } =
+    useContext(DeckContext);
 
   // returns true if relevant elements are loaded and not mid animation
   const checkReady = () => {
-    /*if (sourceRef.current == null) console.log("failed bc sourceRef null");
-    if (cardRefs.current == null) console.log("failed bc cardRefs null");
-    if (
-      cardRefs.current[cardRefs.current.length - 1]?.classList.contains(
-        "animating"
-      )
-    )
-      console.log("failed bc animating");*/
     return !(
       !sourceRef.current ||
       !cardRefs.current ||
@@ -141,7 +139,8 @@ export const useDeck = () => {
       card.style.removeProperty("transform");
 
       // finish animation; remove classes and handlers
-      const spreadEventHandler = () => {
+      const spreadEventHandler = (e: TransitionEvent) => {
+        if (e.target != card) return;
         card.classList.remove("animating");
         card.classList.remove("selected");
         card.removeEventListener("transitionend", spreadEventHandler);
@@ -163,10 +162,10 @@ export const useDeck = () => {
       // add mid-animation class and converged class
       // add selected class to clicked card only if not already converged
       // 10px of flexibility
-      card.classList.add("animating");
-      if (i == index && Math.abs(distances[i].x) > 10) {
+      if (animate) card.classList.add("animating");
+      if (i == index) {
         card.classList.add("selected");
-      } else if (i != index) {
+      } else {
         card.classList.remove("selected");
       }
 
@@ -181,7 +180,8 @@ export const useDeck = () => {
       card.style.transform = `translate(${distances[i].x}px, ${distances[i].y}px)`;
 
       // finish animation; remove classes and handlers
-      const convergeEventHandler = () => {
+      const convergeEventHandler = (e: TransitionEvent) => {
+        if (e.target != card) return;
         card.classList.remove("animating");
         card.removeEventListener("transitionend", convergeEventHandler);
       };
@@ -189,5 +189,5 @@ export const useDeck = () => {
     });
   };
 
-  return { converged, convergeDeck, spreadDeck };
+  return { convergeDeck, spreadDeck };
 };

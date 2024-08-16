@@ -1,7 +1,12 @@
-import { forwardRef, DetailedHTMLProps, ButtonHTMLAttributes } from "react";
+import {
+  forwardRef,
+  DetailedHTMLProps,
+  ButtonHTMLAttributes,
+  useContext,
+} from "react";
 import { Link } from "react-router-dom";
 
-import { useDeck } from "@/utils/deck";
+import { DeckContext } from "@/utils/deck";
 
 import "./index.css";
 
@@ -16,7 +21,7 @@ interface TarotCardProps
 
 const TarotCard = forwardRef<HTMLDivElement, TarotCardProps>((props, ref) => {
   const { children, ...rest } = props;
-  const { converged } = useDeck();
+  const { converged } = useContext(DeckContext);
 
   const offsetY = 50; // padding-top increments
   const offsetX = 3; // number of cards to shift sine wave pattern by
@@ -36,7 +41,7 @@ const TarotCard = forwardRef<HTMLDivElement, TarotCardProps>((props, ref) => {
       {...rest}
     >
       <Link to={converged ? "/" : props.to}>
-        <img src={getSrc()} />
+        <img draggable={false} src={getSrc()} />
       </Link>
     </div>
   );
