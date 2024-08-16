@@ -8,6 +8,8 @@ import {
   useEffect,
 } from "react";
 
+import debounce from "./debounce";
+
 /***************************
  *      DECK CONTEXT
  **************************/
@@ -30,19 +32,34 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
   const sourceRef = useRef<HTMLDivElement>(null);
   const [distances, setDistances] = useState(new Array<DeckCoordType>());
 
+  const calculatePos = (card: HTMLDivElement) => {
+    const boundRect = card.getBoundingClientRect();
+    if (card.style.transform) {
+      var style = window.getComputedStyle(card);
+      var matrix = new WebKitCSSMatrix(style.transform);
+      return {
+        x: boundRect.x - matrix.m41,
+        y: boundRect.y - matrix.m42,
+        height: boundRect.height,
+      };
+    } else {
+      return boundRect;
+    }
+  };
+
   // calculate how far each card needs to shift to reach deck source position
   const calculateDist = () => {
     // source position
     if (!sourceRef.current) return;
-    const sourcePosBox = sourceRef.current.getBoundingClientRect();
+    const sourcePos = sourceRef.current.getBoundingClientRect();
 
     // calculate distance between each card position to source position
     let dist: DeckCoordType[] = [];
     cardRefs.current.forEach((card, i) => {
       if (!card) return;
-      const cardPosBox = card.getBoundingClientRect();
-      const distX = sourcePosBox.x - cardPosBox.x;
-      const distY = sourcePosBox.y - (cardPosBox.y + cardPosBox.height / 2);
+      const cardPos = calculatePos(card);
+      const distX = sourcePos.x - cardPos.x;
+      const distY = sourcePos.y - (cardPos.y + cardPos.height / 2);
       dist[i] = { x: distX, y: distY };
     });
 
@@ -50,9 +67,19 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
     setDistances(dist);
   };
 
+  const dbCalcDist = debounce(() => {
+    console.log("debounce");
+    calculateDist();
+  });
+
   useEffect(() => {
     calculateDist();
   }, [cardRefs, sourceRef]);
+
+  useEffect(() => {
+    window.addEventListener("resize", dbCalcDist);
+    return () => window.removeEventListener("resize", dbCalcDist);
+  }, []);
 
   return (
     <DeckContext.Provider
