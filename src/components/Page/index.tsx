@@ -4,27 +4,20 @@ import { motion } from "framer-motion";
 import "./index.css";
 
 const Page = ({ children }: { children: ReactNode }) => {
-  const transition = { duration: 0.2, ease: [0.43, 0.13, 0.23, 0.96] };
-
   const variants = {
-    initial: {
-      transform: "translateY(40px)",
-      opacity: 0,
-    },
     animate: {
-      transform: "none",
-      opacity: 1,
       transition: {
-        duration: 0.2,
-        ease: [0.43, 0.13, 0.23, 0.96],
-        delay: 0.7,
+        delayChildren: 0.5,
+        staggerChildren: 0.1,
       },
     },
     exit: {
-      transform: "translateY(40px)",
-      opacity: 0,
+      transition: {
+        duration: 0.35,
+      },
     },
   };
+
   return (
     <motion.div
       className="Page"
@@ -32,7 +25,9 @@ const Page = ({ children }: { children: ReactNode }) => {
       initial="initial"
       animate="animate"
       exit="exit"
-      transition={transition}
+      onAnimationStart={() =>
+        document.querySelector("body")?.scrollTo({ top: 0, behavior: "smooth" })
+      }
     >
       <div className="Page__content">{children}</div>
     </motion.div>

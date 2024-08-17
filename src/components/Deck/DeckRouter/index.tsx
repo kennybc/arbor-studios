@@ -1,13 +1,11 @@
 import { Routes, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import { ReactNode, useEffect, useContext, useState } from "react";
 
 import { DeckContext } from "@/utils/deck";
 import { useMounted } from "@/utils/misc";
-
-import { AnimatePresence } from "framer-motion";
-import { ReactNode, useEffect, useContext, useState } from "react";
+import Layout from "@/components/Layout";
 import Deck from "..";
-import Header from "@/components/Header";
-import { Layout } from "@/pages";
 
 export const locations = [
   "/about",
@@ -56,7 +54,11 @@ const DeckRouter = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Layout>
-        <AnimatePresence initial={false} onExitComplete={pathChangeHandler}>
+        <AnimatePresence
+          initial={false}
+          mode="wait"
+          onExitComplete={pathChangeHandler}
+        >
           <Routes location={location} key={location.pathname}>
             {children}
           </Routes>
