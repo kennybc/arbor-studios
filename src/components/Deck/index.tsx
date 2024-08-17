@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { DeckContext, useDeck } from "@/utils/deck";
+import { DeckContext } from "@/utils/deck";
 import { useMounted } from "@/utils/misc";
 import TarotCard from "./TarotCard";
 
@@ -22,8 +22,8 @@ const Deck = () => {
 
   const mounted = useMounted();
   const [nextRenderStill, setNextRenderStill] = useState(false);
-  const { cardRefs, sourceRef, distances } = useContext(DeckContext);
-  const { spreadDeck, convergeDeck } = useDeck();
+  const { cardRefs, sourceRef, distances, convergeDeck, spreadDeck } =
+    useContext(DeckContext);
 
   const setSourceRef = (node: HTMLDivElement) => {
     sourceRef.current = node;

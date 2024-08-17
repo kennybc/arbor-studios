@@ -27,6 +27,8 @@ type DeckContextType = {
   distances: Array<DeckCoordType>;
   setConverged: Dispatch<SetStateAction<boolean>>;
   calculateDist: () => void;
+  convergeDeck: (index: number, animate: boolean) => void;
+  spreadDeck: () => void;
 };
 
 export const DeckContext = createContext({} as DeckContextType);
@@ -70,47 +72,6 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
 
     // update context state to store calculated distances
     setDistances(dist);
-  };
-
-  const dbCalcDist = debounce(() => {
-    calculateDist();
-  });
-
-  useEffect(() => {
-    calculateDist();
-  }, [cardRefs, sourceRef]);
-
-  useEffect(() => {
-    window.addEventListener("resize", dbCalcDist);
-    return () => window.removeEventListener("resize", dbCalcDist);
-  }, []);
-
-  return (
-    <DeckContext.Provider
-      value={{
-        converged,
-        cardRefs,
-        sourceRef,
-        distances,
-        setConverged,
-        calculateDist,
-      }}
-    >
-      {children}
-    </DeckContext.Provider>
-  );
-};
-
-/***************************
- *      DECK HOOK
- **************************/
-export const useDeck = () => {
-  const { cardRefs, sourceRef, distances, setConverged } =
-    useContext(DeckContext);
-
-  // returns true if relevant elements are loaded and not mid animation
-  const checkReady = () => {
-    return !(!sourceRef.current || !cardRefs.current);
   };
 
   // spread the cards out
@@ -174,5 +135,33 @@ export const useDeck = () => {
     });
   };
 
-  return { convergeDeck, spreadDeck };
+  const dbCalcDist = debounce(() => {
+    calculateDist();
+  });
+
+  useEffect(() => {
+    calculateDist();
+  }, [cardRefs, sourceRef]);
+
+  useEffect(() => {
+    window.addEventListener("resize", dbCalcDist);
+    return () => window.removeEventListener("resize", dbCalcDist);
+  }, []);
+
+  return (
+    <DeckContext.Provider
+      value={{
+        converged,
+        cardRefs,
+        sourceRef,
+        distances,
+        setConverged,
+        calculateDist,
+        convergeDeck,
+        spreadDeck,
+      }}
+    >
+      {children}
+    </DeckContext.Provider>
+  );
 };

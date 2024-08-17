@@ -1,6 +1,6 @@
 .Deck {
   flex: 1;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -10,10 +10,18 @@
   padding: 0 5vw;
   gap: 20px;
   align-items: center;
+  z-index: 1;
 
   &__source {
     position: fixed;
     top: 50%;
     left: 30px;
+  }
+
+  &.converged {
+    .TarotCard {
+      position: absolute;
+      width: 300px;
+    }
   }
 }
