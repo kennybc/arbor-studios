@@ -110,27 +110,15 @@ export const useDeck = () => {
 
   // returns true if relevant elements are loaded and not mid animation
   const checkReady = () => {
-    return !(
-      !sourceRef.current ||
-      !cardRefs.current ||
-      cardRefs.current[cardRefs.current.length - 1]?.classList.contains(
-        "animating"
-      )
-    );
+    return !(!sourceRef.current || !cardRefs.current);
   };
 
   // spread the cards out
   const spreadDeck = () => {
-    if (!checkReady()) return;
-
     setConverged(false);
-    cardRefs.current.forEach((card, i) => {
-      // will never occur; just here bc editor does not detech that checkReady() catches nulls
-      if (card == null) return;
 
-      if (card.style.transform == "") {
-        return;
-      }
+    cardRefs.current.forEach((card, i) => {
+      if (card == null || card.style.transform == "") return;
 
       card.classList.add("animating");
 
@@ -151,13 +139,10 @@ export const useDeck = () => {
 
   // converge the cards to a source location with a given card on top
   const convergeDeck = (index: number, animate: boolean = true) => {
-    if (!checkReady()) {
-      return;
-    }
-
-    setConverged(true);
     cardRefs.current.forEach((card, i) => {
-      if (card == null) return;
+      if (card == null || card.style.transform != "") return;
+
+      setConverged(true);
 
       // add mid-animation class and converged class
       // add selected class to clicked card only if not already converged
