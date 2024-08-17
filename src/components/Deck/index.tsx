@@ -1,29 +1,13 @@
-import { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useContext } from "react";
 
 import { DeckContext } from "@/utils/deck";
-import { useMounted } from "@/utils/misc";
+import { locations } from "./DeckRouter";
 import TarotCard from "./TarotCard";
 
 import "./index.css";
 
-const locations = [
-  "/about",
-  "/metaphysics",
-  "/offerings",
-  "/system",
-  "/lineage",
-  "/contact",
-];
-const loc2id = (loc: string) => locations.indexOf(loc);
-
 const Deck = () => {
-  const location = useLocation();
-
-  const mounted = useMounted();
-  const [nextRenderStill, setNextRenderStill] = useState(false);
-  const { cardRefs, sourceRef, distances, convergeDeck, spreadDeck } =
-    useContext(DeckContext);
+  const { cardRefs, sourceRef } = useContext(DeckContext);
 
   const setSourceRef = (node: HTMLDivElement) => {
     sourceRef.current = node;
@@ -35,29 +19,6 @@ const Deck = () => {
     }
     cardRefs.current.push(node);
   };
-
-  useEffect(() => {
-    if (!mounted) {
-      setNextRenderStill(true);
-    }
-  });
-
-  useEffect(() => {
-    if (!distances || distances.length != 6) {
-      return;
-    }
-    let animate = true;
-    if (nextRenderStill) {
-      setNextRenderStill(false);
-      animate = false;
-    }
-    if (location.pathname == "/") {
-      spreadDeck();
-    } else {
-      const index = loc2id(location.pathname);
-      convergeDeck(index, animate);
-    }
-  }, [location.pathname, distances]);
 
   return (
     <div className="Deck">

@@ -2,7 +2,6 @@ import {
   useState,
   useRef,
   createContext,
-  useContext,
   MutableRefObject,
   ReactNode,
   useEffect,
@@ -24,6 +23,7 @@ type DeckContextType = {
   converged: number;
   cardRefs: MutableRefObject<Array<HTMLDivElement | null>>;
   sourceRef: MutableRefObject<HTMLDivElement | null>;
+  contentRef: MutableRefObject<HTMLDivElement | null>;
   distances: Array<DeckCoordType>;
   setConverged: Dispatch<SetStateAction<number>>;
   calculateDist: () => void;
@@ -36,6 +36,7 @@ export const DeckContext = createContext({} as DeckContextType);
 export const DeckProvider = ({ children }: { children: ReactNode }) => {
   const [converged, setConverged] = useState(-1);
   const cardRefs = useRef<HTMLDivElement[]>(new Array());
+  const contentRef = useRef<HTMLDivElement>(null);
   const sourceRef = useRef<HTMLDivElement>(null);
   const [distances, setDistances] = useState(new Array<DeckCoordType>());
 
@@ -58,19 +59,16 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
   // calculate how far each card needs to shift to reach deck source position
   const calculateDist = () => {
     // source position
-    if (!sourceRef.current) return;
-    sourceRef.current.style.top =
-      150 + (1.47557003 * cardRefs.current[0].offsetWidth) / 2 + "px";
+    if (!sourceRef.current || !contentRef.current) return;
 
-    if (
-      sourceRef.current.parentElement &&
-      sourceRef.current.parentElement.parentElement
-    ) {
-      sourceRef.current.parentElement.parentElement.style.paddingTop =
-        1.47557003 * cardRefs.current[0].offsetWidth + "px";
-    } else {
-      console.log("parent dont exist");
-    }
+    // dynamically set source position (card ratio is 450/300) = 1.5
+    sourceRef.current.style.top =
+      180 + (1.5 * cardRefs.current[0].offsetWidth) / 2 + "px";
+    // dynamically set top padding of text content to account for card height
+    console.log(contentRef);
+    contentRef.current.style.removeProperty("padding-top");
+    contentRef.current.style.paddingTop =
+      1.5 * cardRefs.current[0].offsetWidth + "px";
 
     const sourcePos = sourceRef.current.getBoundingClientRect();
 
@@ -86,7 +84,6 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
 
     // update context state to store calculated distances
     setDistances(dist);
-    return dist;
   };
 
   // spread the cards out
@@ -156,7 +153,7 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     calculateDist();
-  }, [cardRefs, sourceRef]);
+  }, [cardRefs, sourceRef, contentRef]);
 
   useEffect(() => {
     window.addEventListener("resize", dbCalcDist);
@@ -169,6 +166,7 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
         converged,
         cardRefs,
         sourceRef,
+        contentRef,
         distances,
         setConverged,
         calculateDist,

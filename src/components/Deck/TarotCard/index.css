@@ -7,6 +7,7 @@
 
   img {
     width: 100%;
+    transform-origin: 100% 100%;
     transition: transform 0.4s ease;
   }
 
@@ -14,6 +15,9 @@
     &:hover {
       img {
         transform: translateY(-10px);
+      }
+      img.converged {
+        transform: translate(3px, -10px) rotate(5deg);
       }
     }
   }

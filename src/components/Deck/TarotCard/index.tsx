@@ -26,6 +26,8 @@ const TarotCard = forwardRef<HTMLDivElement, TarotCardProps>((props, ref) => {
   const offsetY = 50; // padding-top increments
   const offsetX = 3; // number of cards to shift sine wave pattern by
 
+  const isConverged = converged != -1;
+
   const getSrc = () => {
     return new URL(`../../../assets/${props.index}.png`, import.meta.url).href;
   };
@@ -40,8 +42,12 @@ const TarotCard = forwardRef<HTMLDivElement, TarotCardProps>((props, ref) => {
       ref={ref}
       {...rest}
     >
-      <Link to={converged != -1 ? "/" : props.to}>
-        <img draggable={false} src={getSrc()} />
+      <Link to={isConverged ? "/" : props.to}>
+        <img
+          className={isConverged ? "converged" : ""}
+          draggable={false}
+          src={getSrc()}
+        />
       </Link>
     </div>
   );
