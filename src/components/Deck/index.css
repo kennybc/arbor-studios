@@ -1,21 +1,27 @@
 .Deck {
-  flex: 1;
-  position: fixed;
-  top: 0;
+  position: absolute;
   left: 0;
-  display: flex;
-  flex-direction: row;
+  top: 0;
   width: 100%;
   height: 100%;
-  padding: 0 5vw;
-  gap: 20px;
-  align-items: center;
-  z-index: 1;
+  z-index: 2;
 
   &__source {
-    position: fixed;
-    top: 50%;
-    left: 30px;
+    position: absolute;
+    left: 50%;
+  }
+
+  &__cards {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    padding: 0 5vw;
+    gap: 20px;
+    align-items: center;
   }
 
   &.converged {

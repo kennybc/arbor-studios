@@ -7,7 +7,7 @@ import "./index.css";
 
 const Layout = () => {
   return (
-    <div className="Layout">
+    <div className="Layout mobile">
       <Header />
       <div className="Layout__wrapper">
         <Deck />

@@ -1,11 +1,9 @@
 .Page {
   position: relative;
   flex: 1;
-  margin-left: 20vw;
   display: flex;
   justify-content: center;
   z-index: 2;
-
   &__content {
     width: 100%;
     max-width: 1000px;

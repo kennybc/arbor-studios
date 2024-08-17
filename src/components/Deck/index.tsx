@@ -62,11 +62,18 @@ const Deck = () => {
   return (
     <div className="Deck">
       <div className="Deck__source" ref={setSourceRef}></div>
-      {Array.from({ length: locations.length }, (_, i) => {
-        return (
-          <TarotCard index={i + 1} key={i} ref={addCardRef} to={locations[i]} />
-        );
-      })}
+      <div className="Deck__cards">
+        {Array.from({ length: locations.length }, (_, i) => {
+          return (
+            <TarotCard
+              index={i + 1}
+              key={i}
+              ref={addCardRef}
+              to={locations[i]}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

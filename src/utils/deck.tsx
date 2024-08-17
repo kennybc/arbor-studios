@@ -21,11 +21,11 @@ type DeckCoordType = {
 };
 
 type DeckContextType = {
-  converged: boolean;
+  converged: number;
   cardRefs: MutableRefObject<Array<HTMLDivElement | null>>;
   sourceRef: MutableRefObject<HTMLDivElement | null>;
   distances: Array<DeckCoordType>;
-  setConverged: Dispatch<SetStateAction<boolean>>;
+  setConverged: Dispatch<SetStateAction<number>>;
   calculateDist: () => void;
   convergeDeck: (index: number, animate: boolean) => void;
   spreadDeck: () => void;
@@ -34,7 +34,7 @@ type DeckContextType = {
 export const DeckContext = createContext({} as DeckContextType);
 
 export const DeckProvider = ({ children }: { children: ReactNode }) => {
-  const [converged, setConverged] = useState(false);
+  const [converged, setConverged] = useState(-1);
   const cardRefs = useRef<HTMLDivElement[]>(new Array());
   const sourceRef = useRef<HTMLDivElement>(null);
   const [distances, setDistances] = useState(new Array<DeckCoordType>());
@@ -48,6 +48,7 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
         x: boundRect.x - matrix.m41,
         y: boundRect.y - matrix.m42,
         height: boundRect.height,
+        width: boundRect.width,
       };
     } else {
       return boundRect;
@@ -58,6 +59,19 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
   const calculateDist = () => {
     // source position
     if (!sourceRef.current) return;
+    sourceRef.current.style.top =
+      150 + (1.47557003 * cardRefs.current[0].offsetWidth) / 2 + "px";
+
+    if (
+      sourceRef.current.parentElement &&
+      sourceRef.current.parentElement.parentElement
+    ) {
+      sourceRef.current.parentElement.parentElement.style.paddingTop =
+        1.47557003 * cardRefs.current[0].offsetWidth + "px";
+    } else {
+      console.log("parent dont exist");
+    }
+
     const sourcePos = sourceRef.current.getBoundingClientRect();
 
     // calculate distance between each card position to source position
@@ -65,18 +79,19 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
     cardRefs.current.forEach((card, i) => {
       if (!card) return;
       const cardPos = calculatePos(card);
-      const distX = sourcePos.x - cardPos.x;
+      const distX = sourcePos.x - (cardPos.x + cardPos.width / 2);
       const distY = sourcePos.y - (cardPos.y + cardPos.height / 2);
       dist[i] = { x: distX, y: distY };
     });
 
     // update context state to store calculated distances
     setDistances(dist);
+    return dist;
   };
 
   // spread the cards out
   const spreadDeck = () => {
-    setConverged(false);
+    setConverged(-1);
 
     cardRefs.current.forEach((card, i) => {
       if (card == null || card.style.transform == "") return;
@@ -101,9 +116,9 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
   // converge the cards to a source location with a given card on top
   const convergeDeck = (index: number, animate: boolean = true) => {
     cardRefs.current.forEach((card, i) => {
-      if (card == null || card.style.transform != "") return;
+      if (card == null) return;
 
-      setConverged(true);
+      setConverged(index);
 
       // add mid-animation class and converged class
       // add selected class to clicked card only if not already converged
@@ -137,7 +152,7 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
 
   const dbCalcDist = debounce(() => {
     calculateDist();
-  });
+  }, 200);
 
   useEffect(() => {
     calculateDist();

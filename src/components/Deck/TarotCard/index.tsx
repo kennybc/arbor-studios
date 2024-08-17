@@ -40,7 +40,7 @@ const TarotCard = forwardRef<HTMLDivElement, TarotCardProps>((props, ref) => {
       ref={ref}
       {...rest}
     >
-      <Link to={converged ? "/" : props.to}>
+      <Link to={converged != -1 ? "/" : props.to}>
         <img draggable={false} src={getSrc()} />
       </Link>
     </div>
