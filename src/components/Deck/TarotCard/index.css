@@ -1,24 +1,32 @@
 .TarotCard {
   position: relative;
-  transition: transform 0.6s ease;
   cursor: pointer;
-
-  &.selected {
-    z-index: 10;
-  }
+  user-select: none;
+  flex: 1;
+  z-index: 1;
 
   img {
     width: 100%;
     transition: transform 0.4s ease;
   }
-  &:hover {
-    img {
-      transform: translateY(-10px);
+
+  @media (hover: hover) {
+    &:hover {
+      img {
+        transform: translateY(-10px);
+      }
     }
   }
+
   &.animating {
+    pointer-events: none;
+
     img {
       transform: translateZ(0);
     }
+  }
+
+  &.selected {
+    z-index: 10;
   }
 }
