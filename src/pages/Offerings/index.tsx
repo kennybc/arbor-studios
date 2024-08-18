@@ -22,7 +22,7 @@ const Offerings = () => {
           </li>
           <li>
             Strategy consulting &#123;bringing our{" "}
-            <Link to="/about">philosophy</Link> and{" "}
+            <Link to="/metaphysics">philosophy</Link> and{" "}
             <Link to="/about">design principles</Link> as an animating approach
             to scaffolding new pathways for you & your organization through
             strategic forms of thinking, decision making, and action&#125;

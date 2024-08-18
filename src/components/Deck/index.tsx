@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { DeckContext } from "@/utils/deck";
+import DeckContext from "./DeckContext";
 import { locations } from "./DeckRouter";
 import TarotCard from "./TarotCard";
 

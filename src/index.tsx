@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import { DeckProvider } from "@/utils/deck";
+import DeckProvider from "@/components/Deck/DeckProvider";
 import DeckRouter from "@/components/Deck/DeckRouter";
 import * as Pages from "@/pages";
 

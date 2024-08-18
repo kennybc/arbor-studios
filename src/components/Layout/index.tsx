@@ -1,7 +1,7 @@
 import { ReactNode, useContext } from "react";
 
 import Header from "@/components/Header";
-import { DeckContext } from "@/utils/deck";
+import DeckContext from "../Deck/DeckContext";
 
 import "./index.css";
 

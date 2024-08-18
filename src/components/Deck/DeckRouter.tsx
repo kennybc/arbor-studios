@@ -2,10 +2,10 @@ import { Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { ReactNode, useEffect, useContext, useState } from "react";
 
-import { DeckContext } from "@/utils/deck";
+import DeckContext from "./DeckContext";
 import { useMounted } from "@/utils/misc";
 import Layout from "@/components/Layout";
-import Deck from "..";
+import Deck from ".";
 
 export const locations = [
   "/about",

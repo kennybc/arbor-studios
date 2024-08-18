@@ -6,7 +6,7 @@ import {
 } from "react";
 import { Link } from "react-router-dom";
 
-import { DeckContext } from "@/utils/deck";
+import DeckContext from "../DeckContext";
 
 import "./index.css";
 
