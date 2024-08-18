@@ -8,11 +8,13 @@ const Metaphysics = () => {
     <Page>
       <Section>
         <h1>Metaphysics.</h1>
+      </Section>
+      <Section>
         <p style={{ marginBottom: 0 }}>
           <i>
             I want to believe in another world I the world and I want to be in
           </i>{" "}
-          <b>that.</b>
+          <b>that</b>.
         </p>
         <p style={{ marginTop: 0 }}>— Fred Moten</p>
         <p>
@@ -24,6 +26,8 @@ const Metaphysics = () => {
           we not only want to be in it, but know ourselves to be in it. Here are
           our metaphysics, the laws of our world within this world:
         </p>
+      </Section>
+      <Section>
         <ol>
           <li>
             Ancient futurism &#123;<b>the future</b> is ancient; movement into
@@ -65,6 +69,8 @@ const Metaphysics = () => {
             force, but by building new systems.&#125;
           </li>
         </ol>
+      </Section>
+      <Section>
         <p>
           In naming our metaphysics, we hope to begin to{" "}
           <i>restitute the terms and the language</i> that we use to describe

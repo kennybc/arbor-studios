@@ -9,10 +9,14 @@ const Offerings = () => {
     <Page>
       <Section>
         <h1>Offerings.</h1>
+      </Section>
+      <Section>
         <p>
           The tactical forms that our design science take & past models of
           collaboration:
         </p>
+      </Section>
+      <Section>
         <ol>
           <li>
             Atmosphere design and production &#123;including
@@ -43,6 +47,8 @@ const Offerings = () => {
             collaboration, and co-learning&#125;
           </li>
         </ol>
+      </Section>
+      <Section>
         <h3>Some possibilities.</h3>
         <p>
           To give you a sense of what work is possible together: designing and

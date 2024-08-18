@@ -8,6 +8,8 @@ const System = () => {
     <Page>
       <Section>
         <h1>System.</h1>
+      </Section>
+      <Section>
         <p>
           We build unique, individual workstreams for each collaboration. We
           know that all collaborators, artists, and builders arrive with a
@@ -17,6 +19,8 @@ const System = () => {
           ground and space for collaboration that feels safe and secure to those
           who arrive in it.
         </p>
+      </Section>
+      <Section>
         <p>
           Our working process happens through the development of a collaborative
           infrastructure that balances this need for{" "}
@@ -30,6 +34,8 @@ const System = () => {
           common ground that can adapt to changing collaborative needs for both
           process and outcome.
         </p>
+      </Section>
+      <Section>
         <p>
           We consider the workstream to be a predecessor/prototype of the
           infrastructure we build with our collaborators and of paramount
@@ -41,6 +47,8 @@ const System = () => {
           into the collaborative process and to offer models of work processes
           beyond and other-than “industry norms.”
         </p>
+      </Section>
+      <Section>
         <p>
           Our emphasis on developing systems of collaboration <i>during</i> and{" "}
           <i>through</i> the collaboration is grounded in our belief that
@@ -53,6 +61,8 @@ const System = () => {
           an adaptive, responsive groundwork that invites modification,
           evolution, and continued clarification.
         </p>
+      </Section>
+      <Section>
         <p>
           <i>Infrastructure</i> has often come to mean <i>institution</i>: a
           system of organization that continuously instates itself, regardless

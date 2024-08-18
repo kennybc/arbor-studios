@@ -42,6 +42,12 @@ li {
 p {
   text-indent: 20px;
 }
+li {
+  margin-bottom: 5px;
+}
+li::marker {
+  font-weight: bold;
+}
 
 a {
   color: #bb3442 !important;

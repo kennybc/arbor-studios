@@ -8,6 +8,8 @@ const About = () => {
     <Page>
       <Section>
         <h1>About & core principles.</h1>
+      </Section>
+      <Section>
         <p>
           Arbor studio is an atmosphere design studio specializing in making
           infrastructural art. At the core of our work is the desire to
