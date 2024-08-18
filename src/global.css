@@ -42,3 +42,12 @@ li {
 p {
   text-indent: 20px;
 }
+
+a {
+  color: #bb3442 !important;
+}
+@media (hover: hover) {
+  a:hover {
+    text-decoration: none;
+  }
+}
