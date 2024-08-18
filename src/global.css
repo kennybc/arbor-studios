@@ -11,6 +11,11 @@ body {
   overflow-y: scroll;
 }
 
+::selection {
+  background-color: #bb3442;
+  color: white;
+}
+
 h1,
 h2,
 h3,

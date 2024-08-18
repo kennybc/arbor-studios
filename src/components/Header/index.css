@@ -1,16 +1,23 @@
 .Header {
-  color: var(--color-dark);
-  width: 100%;
   padding: 50px;
-  font-size: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+
+  &__content {
+    position: relative;
+    z-index: 3;
+    color: #323232;
+    width: 100%;
+    font-size: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
 
   &__logo {
     width: 50px;
     height: 50px;
+    cursor: pointer;
+    user-select: none;
   }
 }

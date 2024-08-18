@@ -14,7 +14,7 @@
   @media (hover: hover) {
     &:hover {
       img {
-        transform: translateY(-10px);
+        transform: translateY(-15px);
       }
       img.converged {
         transform: translate(3px, -10px) rotate(5deg);
