@@ -9,7 +9,7 @@ import "./global.css";
 
 const App = () => {
   return (
-    <Router>
+    <Router basename={"/arbor-studios/"}>
       <DeckProvider>
         <DeckRouter>
           <Route index element={<Pages.Home />} />
