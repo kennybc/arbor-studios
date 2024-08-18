@@ -34,7 +34,7 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
 
     // dynamically set source position (card ratio is 450/300) = 1.5
     sourceRef.current.style.top =
-      180 + (1.5 * cardRefs.current[0].offsetWidth) / 2 + "px";
+      -10 + (1.5 * cardRefs.current[0].offsetWidth) / 2 + "px";
     // dynamically set top padding of text content to account for card height
     contentRef.current.style.removeProperty("padding-top");
     contentRef.current.style.paddingTop =
