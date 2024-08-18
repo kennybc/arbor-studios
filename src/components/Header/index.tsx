@@ -1,14 +1,18 @@
+import { Link } from "react-router-dom";
+
 import "./index.css";
 
 function Header() {
   return (
     <div className="Header">
-      <div className="Header__logo">arbor studios</div>
-      <div className="Header__menu">
-        <li className="Header__menu__item">philosophy</li>
-        <li className="Header__menu__item">services</li>
-        <li className="Header__menu__item">portfolio</li>
-        <li className="Header__menu__item">products</li>
+      <div className="Header__content">
+        <Link to="/">
+          <img
+            className="Header__logo"
+            src={new URL(`../../assets/logo.png`, import.meta.url).href}
+          />
+        </Link>
+        arbor studios
       </div>
     </div>
   );

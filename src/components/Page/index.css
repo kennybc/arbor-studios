@@ -1,3 +1,13 @@
 .Page {
+  position: relative;
   flex: 1;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+  padding-bottom: 50px;
+
+  &__content {
+    width: 100%;
+    max-width: 1000px;
+  }
 }

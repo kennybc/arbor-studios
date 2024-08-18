@@ -1,7 +1,7 @@
 import "./index.css";
 
 const Home = () => {
-  return <>Home</>;
+  return <></>;
 };
 
 export default Home;

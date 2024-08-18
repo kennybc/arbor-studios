@@ -1,39 +1,13 @@
-import {
-  useState,
-  useRef,
-  createContext,
-  useContext,
-  MutableRefObject,
-  ReactNode,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { useState, useRef, ReactNode, useEffect } from "react";
 
-import debounce from "./debounce";
+import { DeckCoordType } from "./DeckTypes";
+import DeckContext from "./DeckContext";
+import debounce from "@/utils/debounce";
 
-/***************************
- *      DECK CONTEXT
- **************************/
-type DeckCoordType = {
-  x: number;
-  y: number;
-};
-
-type DeckContextType = {
-  converged: boolean;
-  cardRefs: MutableRefObject<Array<HTMLDivElement | null>>;
-  sourceRef: MutableRefObject<HTMLDivElement | null>;
-  distances: Array<DeckCoordType>;
-  setConverged: Dispatch<SetStateAction<boolean>>;
-  calculateDist: () => void;
-};
-
-export const DeckContext = createContext({} as DeckContextType);
-
-export const DeckProvider = ({ children }: { children: ReactNode }) => {
-  const [converged, setConverged] = useState(false);
+const DeckProvider = ({ children }: { children: ReactNode }) => {
+  const [converged, setConverged] = useState(-1);
   const cardRefs = useRef<HTMLDivElement[]>(new Array());
+  const contentRef = useRef<HTMLDivElement>(null);
   const sourceRef = useRef<HTMLDivElement>(null);
   const [distances, setDistances] = useState(new Array<DeckCoordType>());
 
@@ -46,6 +20,7 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
         x: boundRect.x - matrix.m41,
         y: boundRect.y - matrix.m42,
         height: boundRect.height,
+        width: boundRect.width,
       };
     } else {
       return boundRect;
@@ -55,7 +30,16 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
   // calculate how far each card needs to shift to reach deck source position
   const calculateDist = () => {
     // source position
-    if (!sourceRef.current) return;
+    if (!sourceRef.current || !contentRef.current) return;
+
+    // dynamically set source position (card ratio is 450/300) = 1.5
+    sourceRef.current.style.top =
+      180 + (1.5 * cardRefs.current[0].offsetWidth) / 2 + "px";
+    // dynamically set top padding of text content to account for card height
+    contentRef.current.style.removeProperty("padding-top");
+    contentRef.current.style.paddingTop =
+      1.5 * cardRefs.current[0].offsetWidth + "px";
+
     const sourcePos = sourceRef.current.getBoundingClientRect();
 
     // calculate distance between each card position to source position
@@ -63,7 +47,7 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
     cardRefs.current.forEach((card, i) => {
       if (!card) return;
       const cardPos = calculatePos(card);
-      const distX = sourcePos.x - cardPos.x;
+      const distX = sourcePos.x - (cardPos.x + cardPos.width / 2);
       const distY = sourcePos.y - (cardPos.y + cardPos.height / 2);
       dist[i] = { x: distX, y: distY };
     });
@@ -72,50 +56,9 @@ export const DeckProvider = ({ children }: { children: ReactNode }) => {
     setDistances(dist);
   };
 
-  const dbCalcDist = debounce(() => {
-    calculateDist();
-  });
-
-  useEffect(() => {
-    calculateDist();
-  }, [cardRefs, sourceRef]);
-
-  useEffect(() => {
-    window.addEventListener("resize", dbCalcDist);
-    return () => window.removeEventListener("resize", dbCalcDist);
-  }, []);
-
-  return (
-    <DeckContext.Provider
-      value={{
-        converged,
-        cardRefs,
-        sourceRef,
-        distances,
-        setConverged,
-        calculateDist,
-      }}
-    >
-      {children}
-    </DeckContext.Provider>
-  );
-};
-
-/***************************
- *      DECK HOOK
- **************************/
-export const useDeck = () => {
-  const { cardRefs, sourceRef, distances, setConverged } =
-    useContext(DeckContext);
-
-  // returns true if relevant elements are loaded and not mid animation
-  const checkReady = () => {
-    return !(!sourceRef.current || !cardRefs.current);
-  };
-
   // spread the cards out
   const spreadDeck = () => {
-    setConverged(false);
+    setConverged(-1);
 
     cardRefs.current.forEach((card, i) => {
       if (card == null || card.style.transform == "") return;
@@ -139,10 +82,12 @@ export const useDeck = () => {
 
   // converge the cards to a source location with a given card on top
   const convergeDeck = (index: number, animate: boolean = true) => {
-    cardRefs.current.forEach((card, i) => {
-      if (card == null || card.style.transform != "") return;
+    if (converged != -1 && index != converged) return drawCard(index);
 
-      setConverged(true);
+    setConverged(index);
+
+    cardRefs.current.forEach((card, i) => {
+      if (card == null) return;
 
       // add mid-animation class and converged class
       // add selected class to clicked card only if not already converged
@@ -174,5 +119,61 @@ export const useDeck = () => {
     });
   };
 
-  return { convergeDeck, spreadDeck };
+  // when deck is already converged: draw a given card and place it on top
+  const drawCard = (index: number) => {
+    const prev = converged;
+
+    setConverged(index);
+
+    const card = cardRefs.current[index];
+    card.classList.add("animating");
+    card.classList.add("selected");
+    card.classList.add("drawing");
+
+    // finish animation; remove classes and handlers
+    const drawEventHandler = () => {
+      console.log("event");
+      card.classList.remove("animating");
+      card.classList.remove("drawing");
+
+      cardRefs.current[prev].classList.remove("selected");
+      card.classList.add("selected");
+
+      card.removeEventListener("animationend", drawEventHandler);
+    };
+    card.addEventListener("animationend", drawEventHandler);
+  };
+
+  const dbCalcDist = debounce(() => {
+    calculateDist();
+  }, 200);
+
+  useEffect(() => {
+    calculateDist();
+  }, [cardRefs, sourceRef, contentRef]);
+
+  useEffect(() => {
+    window.addEventListener("resize", dbCalcDist);
+    return () => window.removeEventListener("resize", dbCalcDist);
+  }, []);
+
+  return (
+    <DeckContext.Provider
+      value={{
+        converged,
+        cardRefs,
+        sourceRef,
+        contentRef,
+        distances,
+        setConverged,
+        calculateDist,
+        convergeDeck,
+        spreadDeck,
+      }}
+    >
+      {children}
+    </DeckContext.Provider>
+  );
 };
+
+export default DeckProvider;

@@ -7,13 +7,17 @@
 
   img {
     width: 100%;
+    transform-origin: 100% 100%;
     transition: transform 0.4s ease;
   }
 
   @media (hover: hover) {
     &:hover {
       img {
-        transform: translateY(-10px);
+        transform: translateY(-15px);
+      }
+      img.converged {
+        transform: translate(3px, -10px) rotate(5deg);
       }
     }
   }
@@ -26,7 +30,47 @@
     }
   }
 
+  &.drawing {
+    animation: 1.2s 1 forwards layer;
+
+    img {
+      position: relative;
+      animation: 1.2s 1 forwards draw cubic-bezier(0.9, 0, 0, 0.9);
+    }
+  }
+
   &.selected {
-    z-index: 10;
+    z-index: 2;
+  }
+}
+
+@keyframes draw {
+  0% {
+    transform: none;
+  }
+
+  50% {
+    transform: translate(-100%, -20%) rotateY(-20deg) rotateZ(-10deg);
+  }
+
+  100% {
+    transform: none;
+  }
+}
+@keyframes layer {
+  0% {
+    z-index: 1;
+  }
+
+  49% {
+    z-index: 1;
+  }
+
+  50% {
+    z-index: 3;
+  }
+
+  100% {
+    z-index: 3;
   }
 }
