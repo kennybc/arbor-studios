@@ -19,8 +19,6 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
       return {
         x: boundRect.x - matrix.m41,
         y: boundRect.y - matrix.m42,
-        height: boundRect.height,
-        width: boundRect.width,
       };
     } else {
       return boundRect;
@@ -36,7 +34,7 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
     // which leaves the height 0, whereas the width of the image will always fill up the
     // container which is determined by the DOM flex
     const cardWidth = cardRefs.current[0].offsetWidth;
-    const cardHeight = 1.5 * cardRefs.current[0].offsetWidth;
+    const cardHeight = 1.5 * cardWidth;
 
     // dynamically set source position (card ratio is 450/300) = 1.5
     sourceRef.current.style.top = -10 + cardHeight / 2 + "px";

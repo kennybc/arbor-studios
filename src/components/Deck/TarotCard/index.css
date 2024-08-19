@@ -4,6 +4,7 @@
   user-select: none;
   flex: 1;
   z-index: 1;
+  min-height: 1px;
 
   img {
     width: 100%;
