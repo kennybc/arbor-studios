@@ -159,8 +159,8 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
   }, [cardRefs, sourceRef, contentRef]);
 
   useEffect(() => {
-    //window.addEventListener("resize", dbCalcDist);
-    //return () => window.removeEventListener("resize", dbCalcDist);
+    window.addEventListener("resize", dbCalcDist);
+    return () => window.removeEventListener("resize", dbCalcDist);
   }, []);
 
   return (
