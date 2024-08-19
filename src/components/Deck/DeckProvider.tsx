@@ -32,13 +32,18 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
     // source position
     if (!sourceRef.current || !contentRef.current) return;
 
+    // need to calculate the height from the width bc the image doesn't load sometimes
+    // which leaves the height 0, whereas the width of the image will always fill up the
+    // container which is determined by the DOM flex
+    const cardWidth = cardRefs.current[0].offsetWidth;
+    const cardHeight = 1.5 * cardRefs.current[0].offsetWidth;
+
     // dynamically set source position (card ratio is 450/300) = 1.5
-    sourceRef.current.style.top =
-      -10 + (1.5 * cardRefs.current[0].offsetWidth) / 2 + "px";
+    sourceRef.current.style.top = -10 + cardHeight / 2 + "px";
+
     // dynamically set top padding of text content to account for card height
     contentRef.current.style.removeProperty("padding-top");
-    contentRef.current.style.paddingTop =
-      1.5 * cardRefs.current[0].offsetWidth + "px";
+    contentRef.current.style.paddingTop = cardHeight + "px";
 
     const sourcePos = sourceRef.current.getBoundingClientRect();
 
@@ -47,9 +52,10 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
     cardRefs.current.forEach((card, i) => {
       if (!card) return;
       const cardPos = calculatePos(card);
-      const distX = sourcePos.x - (cardPos.x + cardPos.width / 2);
-      const distY = sourcePos.y - (cardPos.y + cardPos.height / 2);
+      const distX = sourcePos.x - (cardPos.x + cardWidth / 2);
+      const distY = sourcePos.y - (cardPos.y + cardHeight / 2);
       dist[i] = { x: distX, y: distY };
+      console.log({ x: distX, y: distY });
     });
 
     // update context state to store calculated distances
@@ -153,8 +159,8 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
   }, [cardRefs, sourceRef, contentRef]);
 
   useEffect(() => {
-    window.addEventListener("resize", dbCalcDist);
-    return () => window.removeEventListener("resize", dbCalcDist);
+    //window.addEventListener("resize", dbCalcDist);
+    //return () => window.removeEventListener("resize", dbCalcDist);
   }, []);
 
   return (
