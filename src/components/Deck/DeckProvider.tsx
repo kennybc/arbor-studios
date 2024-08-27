@@ -53,7 +53,6 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
       const distX = sourcePos.x - (cardPos.x + cardWidth / 2);
       const distY = sourcePos.y - (cardPos.y + cardHeight / 2);
       dist[i] = { x: distX, y: distY };
-      console.log({ x: distX, y: distY });
     });
 
     // update context state to store calculated distances
@@ -103,8 +102,6 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
         card.classList.remove("selected");
       }
 
-      //console.log(`card ${i}: ${distances[i].x}, ${distances[i].y}`);
-
       // transition cards to source location
       if (animate) {
         card.style.transition = `transform 0.6s ease ${i * 50}ms`;
@@ -136,7 +133,6 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
 
     // finish animation; remove classes and handlers
     const drawEventHandler = () => {
-      console.log("event");
       card.classList.remove("animating");
       card.classList.remove("drawing");
 

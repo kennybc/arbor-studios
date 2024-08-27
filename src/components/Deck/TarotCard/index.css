@@ -4,13 +4,17 @@
   user-select: none;
   flex: 1;
   z-index: 1;
-  min-height: 1px;
+
+  &__ratio {
+    width: 100%;
+    padding-bottom: 150%;
+  }
 
   img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    perspective: none;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
     transform-origin: 100% 100%;
     transition: transform 0.4s ease;
   }
@@ -28,17 +32,13 @@
 
   &.animating {
     pointer-events: none;
-
-    img {
-      transform: translateZ(0);
-    }
   }
 
   &.drawing {
     animation: 1.2s 1 forwards layer;
 
     img {
-      position: relative;
+      will-change: transform;
       animation: 1.2s 1 forwards draw cubic-bezier(0.9, 0, 0, 0.9);
     }
   }
@@ -50,13 +50,14 @@
 
 @keyframes draw {
   0% {
-    transform: none;
+    transform: translateZ(0);
   }
   50% {
-    transform: translate(-100%, -20%) rotateY(-20deg) rotateZ(-10deg);
+    transform: translate(-100%, -20%) rotateY(-20deg) rotateZ(-10deg)
+      translateZ(0);
   }
   100% {
-    transform: none;
+    transform: translateZ(0);
   }
 }
 @keyframes layer {

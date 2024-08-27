@@ -23,7 +23,7 @@ const TarotCard = forwardRef<HTMLDivElement, TarotCardProps>((props, ref) => {
   const { children, ...rest } = props;
   const { converged } = useContext(DeckContext);
 
-  const offsetY = 50; // padding-top increments
+  const offsetY = 4; // padding-top vw units
   const offsetX = 3; // number of cards to shift sine wave pattern by
 
   const isConverged = converged != -1;
@@ -37,12 +37,15 @@ const TarotCard = forwardRef<HTMLDivElement, TarotCardProps>((props, ref) => {
       className="TarotCard"
       style={{
         marginTop:
-          Math.sin(((props.index - offsetX) * Math.PI) / 2) * offsetY + offsetY,
+          Math.sin(((props.index - offsetX) * Math.PI) / 2) * offsetY +
+          offsetY +
+          "vw",
       }}
       ref={ref}
       {...rest}
     >
       <Link to={isConverged ? "/" : props.to}>
+        <div className="TarotCard__ratio"></div>
         <img
           className={isConverged ? "converged" : ""}
           draggable={false}
