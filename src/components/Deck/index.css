@@ -29,6 +29,8 @@
   .Deck {
     &__cards {
       gap: 3vw;
+      padding: 0;
+      padding-bottom: 60px;
     }
     .TarotCard {
       flex: 0 0 calc(33% - 40px);
@@ -39,8 +41,7 @@
 @media (max-width: 639px) {
   .Deck {
     &__cards {
-      gap: 20px 2vw;
-      padding: 0;
+      gap: 10px 20px;
     }
     .TarotCard {
       flex: 0 0 calc(50% - 50px);
