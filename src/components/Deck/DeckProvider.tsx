@@ -105,18 +105,19 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
       // transition cards to source location
       if (animate) {
         card.style.transition = `transform 0.6s ease ${i * 50}ms`;
+
+        // when animation finishes, remove classes and handlers
+        const convergeEventHandler = (e: TransitionEvent) => {
+          if (e.target != card) return;
+          console.log("trabsition end");
+          card.classList.remove("animating");
+          card.removeEventListener("transitionend", convergeEventHandler);
+        };
+        card.addEventListener("transitionend", convergeEventHandler);
       } else {
         card.style.removeProperty("transition");
       }
       card.style.transform = `translate(${distances[i].x}px, ${distances[i].y}px)`;
-
-      // finish animation; remove classes and handlers
-      const convergeEventHandler = (e: TransitionEvent) => {
-        if (e.target != card) return;
-        card.classList.remove("animating");
-        card.removeEventListener("transitionend", convergeEventHandler);
-      };
-      card.addEventListener("transitionend", convergeEventHandler);
     });
   };
 
@@ -131,7 +132,7 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
     card.classList.add("selected");
     card.classList.add("drawing");
 
-    // finish animation; remove classes and handlers
+    // when animation finishes, remove classes and handlers
     const drawEventHandler = () => {
       card.classList.remove("animating");
       card.classList.remove("drawing");
