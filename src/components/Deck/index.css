@@ -39,7 +39,7 @@
 @media (max-width: 639px) {
   .Deck {
     &__cards {
-      gap: 20px 2vw;
+      gap: 10px 20px;
       padding: 0;
     }
     .TarotCard {
