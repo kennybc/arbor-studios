@@ -1,5 +1,6 @@
 import Page from "@/components/Page";
 import Section from "@/components/Section";
+import Controls from "@/components/Controls";
 
 import "./index.css";
 
@@ -80,6 +81,9 @@ const Metaphysics = () => {
           renaming, but to make visible a world that has been here all along,
           and which we have always been in.
         </p>
+      </Section>
+      <Section>
+        <Controls index={1} />
       </Section>
     </Page>
   );

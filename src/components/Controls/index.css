@@ -1,0 +1,47 @@
+.Controls {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  font-size: 1.2em;
+  margin-top: 30px;
+
+  a {
+    text-decoration: none;
+    color: #524848;
+  }
+
+  &__prev,
+  &__next {
+    position: relative;
+    cursor: pointer;
+    text-transform: capitalize;
+    padding: 5px 10px;
+  }
+
+  &__prev:before,
+  &__next:before {
+    content: "";
+    position: absolute;
+    background: #eee;
+    height: 100%;
+    top: 0;
+    z-index: -1;
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.4s ease;
+  }
+
+  &__prev:before {
+    right: 0;
+  }
+
+  &__next:before {
+    left: 0;
+  }
+
+  :hover:before {
+    opacity: 1;
+    width: 100%;
+  }
+}
