@@ -1,5 +1,6 @@
 import Page from "@/components/Page";
 import Section from "@/components/Section";
+import Controls from "@/components/Controls";
 
 import "./index.css";
 
@@ -74,6 +75,9 @@ const About = () => {
           <i>The question of radical infrastructure</i> must necessarily deploy
           art as a strategy to ask after new and unknown horizons.
         </p>
+      </Section>
+      <Section>
+        <Controls index={0} />
       </Section>
     </Page>
   );

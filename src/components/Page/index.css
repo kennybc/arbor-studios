@@ -8,7 +8,10 @@
   padding-top: 0;
 
   &__content {
+    position: relative;
     width: 100%;
     max-width: 1000px;
+    display: flex;
+    flex-direction: column;
   }
 }
