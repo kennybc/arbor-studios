@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 import Page from "@/components/Page";
 import Section from "@/components/Section";
+import Controls from "@/components/Controls";
 
 import "./index.css";
-import { Link } from "react-router-dom";
 
 const Offerings = () => {
   return (
@@ -58,6 +60,9 @@ const Offerings = () => {
           developing conceptual frameworks for personal thinking,
           imagining/directing the development of a company.
         </p>
+      </Section>
+      <Section>
+        <Controls index={2} />
       </Section>
     </Page>
   );

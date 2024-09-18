@@ -50,7 +50,7 @@ li::marker {
 }
 
 a {
-  color: #bb3442 !important;
+  color: #bb3442;
 }
 @media (hover: hover) {
   a:hover {

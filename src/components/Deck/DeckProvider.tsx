@@ -109,7 +109,6 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
         // when animation finishes, remove classes and handlers
         const convergeEventHandler = (e: TransitionEvent) => {
           if (e.target != card) return;
-          console.log("trabsition end");
           card.classList.remove("animating");
           card.removeEventListener("transitionend", convergeEventHandler);
         };

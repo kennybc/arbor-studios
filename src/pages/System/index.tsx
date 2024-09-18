@@ -1,5 +1,6 @@
 import Page from "@/components/Page";
 import Section from "@/components/Section";
+import Controls from "@/components/Controls";
 
 import "./index.css";
 
@@ -72,6 +73,9 @@ const System = () => {
           infrastructure—infrastructure that is not only <i>open to changing</i>
           , but is <i>built as an instrument of balancing state change.</i>
         </p>
+      </Section>
+      <Section>
+        <Controls index={3} />
       </Section>
     </Page>
   );
