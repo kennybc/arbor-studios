@@ -123,6 +123,11 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
       };
       homeCard.addEventListener("transitionend", fadeEventHandler);
     }
+
+    // show deck (hidden by default to prevent 1-frame flash when loading a non-home page)
+    (
+      cardRefs.current[0].parentElement?.parentElement as HTMLDivElement
+    ).style.opacity = "1";
   };
 
   // converge the cards to a source location with a given card on top
@@ -161,9 +166,15 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
         };
         card.addEventListener("transitionend", convergeEventHandler);
       } else {
+        // first page load
         card.style.removeProperty("transition");
         let homeCard = card.parentElement?.nextElementSibling as HTMLDivElement;
         homeCard.classList.remove("hidden");
+
+        // show deck
+        (
+          cardRefs.current[0].parentElement?.parentElement as HTMLDivElement
+        ).style.opacity = "1";
       }
       card.style.transform = `translate(${distances[i].x}px, ${distances[i].y}px)`;
     });
