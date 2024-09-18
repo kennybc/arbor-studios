@@ -13,7 +13,7 @@ const Metaphysics = () => {
       <Section>
         <p style={{ marginBottom: 0 }}>
           <i>
-            I want to believe in another world I the world and I want to be in
+            I want to believe in another world in the world and I want to be in
           </i>{" "}
           <b>that</b>.
         </p>
