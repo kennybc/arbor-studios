@@ -17,7 +17,7 @@ const About = () => {
           collaborate on building imaginative & flexible infrastructures for
           sustainable, relational worlds.
         </p>
-        <h3>Core principles behind our design science:</h3>
+        <p>Below are the core principles behind our design science.</p>
       </Section>
       <Section>
         <h2>Design is cosmotechnical and fractal.</h2>
