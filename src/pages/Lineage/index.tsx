@@ -12,11 +12,26 @@ const Lineage = () => {
       </Section>
       <Section>
         <p style={{ textIndent: 0 }}>
-          The Holy Bible, King James Version
+          <a href="https://archive.org/details/KingJamesBible" target="_blank">
+            The Holy Bible
+          </a>
+          , King James Version
           <br />
-          Tao Te Ching, trans. Ursula Le Guin
+          <a
+            href="https://archive.org/details/taotechingbookab0000laoz"
+            target="_blank"
+          >
+            Tao Te Ching
+          </a>
+          , trans. Ursula Le Guin
           <br />
-          I Ching, trans. Hua Ching-Ni
+          <a
+            href="https://archive.org/details/bookofchangesunc0000nihu"
+            target="_blank"
+          >
+            I Ching
+          </a>
+          , trans. Hua Ching-Ni
           <br />
           Balancing Heaven and Earth, Robert Johnson
           <br />
@@ -50,9 +65,9 @@ const Lineage = () => {
           <br />
           Capitalist Realism, Mark Fisher
           <br />
-          Emergent Thinking, adrienne maree brown
+          Emergent Thinking, Adrienne Maree Brown
           <br />
-          All About Love, bell hooks
+          All About Love, Bell Hooks
           <br />
           Braiding Sweetgrass, Robin Wall Kimmerer
           <br />

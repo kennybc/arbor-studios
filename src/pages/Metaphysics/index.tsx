@@ -17,7 +17,7 @@ const Metaphysics = () => {
           </i>{" "}
           <b>that</b>.
         </p>
-        <p style={{ marginTop: 0 }}>— Fred Moten</p>
+        <p style={{ marginTop: 0 }}>– Fred Moten</p>
         <p>
           Welcome to the arborage. More than a design studio, Arbor understands
           ourselves as the middle of a movement. Middle, because everything
