@@ -35,6 +35,7 @@ const Deck = () => {
           );
         })}
       </div>
+      <TarotCard className="Deck__home hidden" index={0} to={"/"} />
     </div>
   );
 };

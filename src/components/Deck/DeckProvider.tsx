@@ -11,6 +11,7 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
   const sourceRef = useRef<HTMLDivElement>(null);
   const [distances, setDistances] = useState(new Array<DeckCoordType>());
 
+  // calculate the exact coordinate position of a card
   const calculatePos = (card: HTMLDivElement) => {
     const boundRect = card.getBoundingClientRect();
     if (card.style.transform) {
@@ -25,8 +26,22 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // calculate how far one card needs to shift to reach deck source position
+  const calculateDist = (
+    card: HTMLDivElement,
+    cardWidth: number,
+    cardHeight: number,
+    sourcePos: DeckCoordType
+  ) => {
+    if (!card) return;
+    const cardPos = calculatePos(card);
+    const distX = sourcePos.x - (cardPos.x + cardWidth / 2);
+    const distY = sourcePos.y - (cardPos.y + cardHeight / 2);
+    return { x: distX, y: distY };
+  };
+
   // calculate how far each card needs to shift to reach deck source position
-  const calculateDist = () => {
+  const calculateDists = () => {
     // source position
     if (!sourceRef.current || !contentRef.current) return;
 
@@ -48,15 +63,26 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
     // calculate distance between each card position to source position
     let dist: DeckCoordType[] = [];
     cardRefs.current.forEach((card, i) => {
-      if (!card) return;
-      const cardPos = calculatePos(card);
-      const distX = sourcePos.x - (cardPos.x + cardWidth / 2);
-      const distY = sourcePos.y - (cardPos.y + cardHeight / 2);
-      dist[i] = { x: distX, y: distY };
+      let cardDist = calculateDist(card, cardWidth, cardHeight, sourcePos);
+      if (cardDist) {
+        dist[i] = cardDist;
+      }
     });
 
     // update context state to store calculated distances
     setDistances(dist);
+
+    // move "home" card (that sits between the top card and rest of deck) into place
+    let homeCard = cardRefs.current[0].parentElement
+      ?.nextElementSibling as HTMLDivElement;
+    if (homeCard) {
+      homeCard.style.width = cardWidth + "px";
+      homeCard.style.marginTop = "0";
+      let cardDist = calculateDist(homeCard, cardWidth, cardHeight, sourcePos);
+      if (cardDist) {
+        homeCard.style.transform = `translate(${cardDist.x}px, ${cardDist.y}px)`;
+      }
+    }
   };
 
   // spread the cards out
@@ -81,6 +107,22 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
       };
       card.addEventListener("transitionend", spreadEventHandler);
     });
+
+    // hide "home" card (fade out animation)
+    let homeCard = cardRefs.current[0].parentElement
+      ?.nextElementSibling as HTMLDivElement;
+
+    if (!homeCard.classList.contains("hidden")) {
+      homeCard.classList.add("fading");
+
+      const fadeEventHandler = (e: TransitionEvent) => {
+        if (e.target != homeCard) return;
+        homeCard.classList.add("hidden");
+        homeCard.classList.remove("fading");
+        homeCard.removeEventListener("transitionend", fadeEventHandler);
+      };
+      homeCard.addEventListener("transitionend", fadeEventHandler);
+    }
   };
 
   // converge the cards to a source location with a given card on top
@@ -111,10 +153,17 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
           if (e.target != card) return;
           card.classList.remove("animating");
           card.removeEventListener("transitionend", convergeEventHandler);
+
+          // show "home" card
+          let homeCard = card.parentElement
+            ?.nextElementSibling as HTMLDivElement;
+          homeCard.classList.remove("hidden");
         };
         card.addEventListener("transitionend", convergeEventHandler);
       } else {
         card.style.removeProperty("transition");
+        let homeCard = card.parentElement?.nextElementSibling as HTMLDivElement;
+        homeCard.classList.remove("hidden");
       }
       card.style.transform = `translate(${distances[i].x}px, ${distances[i].y}px)`;
     });
@@ -145,11 +194,11 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const dbCalcDist = debounce(() => {
-    calculateDist();
+    calculateDists();
   }, 200);
 
   useEffect(() => {
-    calculateDist();
+    calculateDists();
   }, [cardRefs, sourceRef, contentRef]);
 
   useEffect(() => {
@@ -166,7 +215,7 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
         contentRef,
         distances,
         setConverged,
-        calculateDist,
+        calculateDists,
         convergeDeck,
         spreadDeck,
       }}

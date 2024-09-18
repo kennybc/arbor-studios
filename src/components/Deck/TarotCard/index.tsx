@@ -29,7 +29,8 @@ const TarotCard = forwardRef<HTMLDivElement, TarotCardProps>((props, ref) => {
   const isConverged = converged != -1;
 
   const getSrc = () => {
-    return new URL(`../../../assets/${props.index}.png`, import.meta.url).href;
+    let fileName = props.index == 0 ? "home" : props.index;
+    return new URL(`../../../assets/${fileName}.png`, import.meta.url).href;
   };
 
   return (
