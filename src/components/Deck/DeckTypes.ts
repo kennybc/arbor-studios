@@ -12,7 +12,7 @@ export type DeckContextType = {
   contentRef: MutableRefObject<HTMLDivElement | null>;
   distances: Array<DeckCoordType>;
   setConverged: Dispatch<SetStateAction<number>>;
-  calculateDist: () => void;
+  calculateDists: () => void;
   convergeDeck: (index: number, animate: boolean) => void;
   spreadDeck: () => void;
 };
