@@ -26,7 +26,7 @@ const Page = ({ children }: { children: ReactNode }) => {
       animate="animate"
       exit="exit"
       onAnimationStart={() =>
-        document.querySelector("body")?.scrollTo({ top: 0, behavior: "smooth" })
+        document.querySelector("html")?.scrollTo({ top: 0, behavior: "smooth" })
       }
     >
       <div className="Page__content">{children}</div>
