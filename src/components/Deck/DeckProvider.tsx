@@ -112,6 +112,11 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
     let homeCard = cardRefs.current[0].parentElement
       ?.nextElementSibling as HTMLDivElement;
 
+    // "spread" vs "hidden":
+    // - "spread" is applied/removed immediately when spread/converge are called
+    // - "hidden" is applied/removed conditionally on transitionend events
+    homeCard.classList.add("spread");
+
     if (!homeCard.classList.contains("hidden")) {
       homeCard.classList.add("fading");
 
@@ -135,6 +140,9 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
     if (converged != -1 && index != converged) return drawCard(index);
 
     setConverged(index);
+
+    let homeCard = cardRefs.current[0].parentElement
+      ?.nextElementSibling as HTMLDivElement;
 
     cardRefs.current.forEach((card, i) => {
       if (card == null) return;
@@ -160,9 +168,9 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
           card.removeEventListener("transitionend", convergeEventHandler);
 
           // show "home" card
-          let homeCard = card.parentElement
-            ?.nextElementSibling as HTMLDivElement;
-          homeCard.classList.remove("hidden");
+          if (!homeCard.classList.contains("spread")) {
+            homeCard.classList.remove("hidden");
+          }
         };
         card.addEventListener("transitionend", convergeEventHandler);
       } else {
@@ -178,6 +186,8 @@ const DeckProvider = ({ children }: { children: ReactNode }) => {
       }
       card.style.transform = `translate(${distances[i].x}px, ${distances[i].y}px)`;
     });
+
+    homeCard.classList.remove("spread");
   };
 
   // when deck is already converged: draw a given card and place it on top
