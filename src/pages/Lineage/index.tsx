@@ -140,6 +140,8 @@ const Lineage = () => {
           Shane Denson
           <br />
           David Palumbo-Liu
+          <br />
+          Amara Tabor-Smith
         </p>
       </Section>
       <Section>
