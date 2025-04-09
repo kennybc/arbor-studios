@@ -12,7 +12,7 @@ function Header() {
             src={new URL(`../../assets/logo.png`, import.meta.url).href}
           />
         </Link>
-        ARBOR STUDIOS
+        ARBOR STUDIO
       </div>
     </div>
   );
