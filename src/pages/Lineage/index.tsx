@@ -12,11 +12,6 @@ const Lineage = () => {
       </Section>
       <Section>
         <p style={{ textIndent: 0 }}>
-          <a href="https://archive.org/details/KingJamesBible" target="_blank">
-            The Holy Bible
-          </a>
-          , King James Version
-          <br />
           <a
             href="https://archive.org/details/taotechingbookab0000laoz"
             target="_blank"
@@ -32,6 +27,18 @@ const Lineage = () => {
             I Ching
           </a>
           , trans. Hua Ching-Ni
+          <br />
+          <a
+            href="https://archive.org/details/Bhagavad-Gita.with.the.Commentary.of.Sri.Shankaracharya"
+            target="_blank"
+          >
+            Bhagavad Gita
+          </a>
+          <br />
+           <a href="https://archive.org/details/KingJamesBible" target="_blank">
+            The Holy Bible
+          </a>
+          , King James Version
           <br />
           Balancing Heaven and Earth, Robert Johnson
           <br />
